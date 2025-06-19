@@ -5,6 +5,9 @@
 *.userosscache
 *.sln.docstates
 api/obj/
+domain/obj/
+infrastructure/obj/
+
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
