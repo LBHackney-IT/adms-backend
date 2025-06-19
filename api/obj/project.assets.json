@@ -98,6 +98,16 @@
         "runtime": {
           "bin/placeholder/domain.dll": {}
         }
+      },
+      "infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/infrastructure.dll": {}
+        }
       }
     }
   },
@@ -454,12 +464,18 @@
       "type": "project",
       "path": "../domain/domain.csproj",
       "msbuildProject": "../domain/domain.csproj"
+    },
+    "infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../infrastructure/infrastructure.csproj",
+      "msbuildProject": "../infrastructure/infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Swashbuckle.AspNetCore >= 6.6.2",
-      "domain >= 1.0.0"
+      "domain >= 1.0.0",
+      "infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -489,6 +505,9 @@
           "projectReferences": {
             "/Users/thatgui/Documents/SoftwareEngineer/2025/Hackney/adms-backend/domain/domain.csproj": {
               "projectPath": "/Users/thatgui/Documents/SoftwareEngineer/2025/Hackney/adms-backend/domain/domain.csproj"
+            },
+            "/Users/thatgui/Documents/SoftwareEngineer/2025/Hackney/adms-backend/infrastructure/infrastructure.csproj": {
+              "projectPath": "/Users/thatgui/Documents/SoftwareEngineer/2025/Hackney/adms-backend/infrastructure/infrastructure.csproj"
             }
           }
         }
