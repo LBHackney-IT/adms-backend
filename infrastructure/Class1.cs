@@ -1,4 +1,4 @@
-﻿namespace domain;
+﻿namespace infrastructure;
 
 public class Class1
 {
