@@ -8,9 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be345c94-4ba2-409b-8a84-e714a61ca39b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Domain/Interfaces/IApprentice.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Domain/Interfaces/IApprentice.cs" afterDir="false" />
-    </list>
+    <list default="true" id="be345c94-4ba2-409b-8a84-e714a61ca39b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -110,7 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1750329114690</updated>
       <workItem from="1750329115741" duration="5093000" />
-      <workItem from="1750413908946" duration="6991000" />
+      <workItem from="1750413908946" duration="7591000" />
     </task>
     <task id="LOCAL-00001" summary="Add IDE configuration file for Git VCS integration">
       <option name="closed" value="true" />
@@ -152,7 +150,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750422070881</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feat: Initialize solution structure with Api, Domain, and Infrastructure projects;&#10;feat: IApprentice Interface implemented;">
+      <option name="closed" value="true" />
+      <created>1750422589226</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1750422589226</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +172,8 @@
     <MESSAGE value="Add `.gitignore` to exclude user-specific, build, and IDE-generated files" />
     <MESSAGE value="refactor: Restructure solution - replace `api`, `domain`, and `infrastructure` projects with `Api` and `Domain`; introduce enums and entities for `Apprentice`" />
     <MESSAGE value="feat: Initialize .NET 8 solution with Api, Domain, and Infrastructure projects; add WeatherForecast API and Swagger setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Initialize .NET 8 solution with Api, Domain, and Infrastructure projects; add WeatherForecast API and Swagger setup" />
+    <MESSAGE value="feat: Initialize solution structure with Api, Domain, and Infrastructure projects;&#10;feat: IApprentice Interface implemented;" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Initialize solution structure with Api, Domain, and Infrastructure projects;&#10;feat: IApprentice Interface implemented;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
