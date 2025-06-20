@@ -4,9 +4,9 @@
 *.user
 *.userosscache
 *.sln.docstates
-api/obj/
-domain/obj/
-infrastructure/obj/
+Api/obj/
+Domain/obj/
+Infrastructure/obj/
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
@@ -43,3 +43,4 @@ bld/
 
 # Rider personal settings
 .idea/.idea
+.idea/
