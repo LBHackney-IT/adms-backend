@@ -1,10 +1,12 @@
 using System;
+using Domain.Entities;
 using Domain.Enums;
 
 namespace Application.DTOs;
 
 public class ResponseTransactionDto
 {
+    
     public Guid Id { get; set; }
     public string? ApprenticeName { get; set; }
     public string? ApprenticeshipTrainingCourse { get; set; }
@@ -28,4 +30,5 @@ public class ResponseTransactionDto
     public DirectorateCode? ApprenticeDirectorate { get; set; }
     public ApprenticeshipProgram? ApprenticeProgram { get; set; }
     public string? ApprenticeStatus { get; set; }
+    
 }
