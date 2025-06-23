@@ -8,6 +8,7 @@ public interface ITransaction
     string Description { get; set; }
     decimal EnglishPercentage { get; set; }
     decimal GovernmentContribution { get; set; }
+    Guid Id { get; set; }
     decimal LevyDeclared { get; set; }
     decimal PaidFromLevy { get; set; }
     string? PayeScheme { get; set; }
@@ -17,6 +18,6 @@ public interface ITransaction
     DateTime TransactionDate { get; set; }
     string TransactionType { get; set; }
     string? TrainingProvider { get; set; }
-    decimal ULN { get; set; }
+    decimal? ULN { get; set; }
     decimal YourContribution { get; set; }
 }

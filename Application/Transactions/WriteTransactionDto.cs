@@ -1,9 +1,6 @@
-using System;
-using Domain.Interfaces;
+namespace Application.DTOs;
 
-namespace Domain.Entities;
-
-public class Transaction: ITransaction
+public class WriteTransactionDto
 {
     public string? ApprenticeName { get; set; }
     public string? ApprenticeshipTrainingCourse { get; set; }
@@ -11,7 +8,6 @@ public class Transaction: ITransaction
     public string Description { get; set; }
     public decimal EnglishPercentage { get; set; }
     public decimal GovernmentContribution { get; set; }
-    public required Guid Id { get; set; }
     public decimal LevyDeclared { get; set; }
     public decimal PaidFromLevy { get; set; }
     public string? PayeScheme { get; set; }
