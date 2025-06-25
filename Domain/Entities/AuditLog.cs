@@ -11,6 +11,6 @@ public class AuditLog: IAuditLog
     public AuditLogEventType EventType { get; set; }
     public Guid Id { get; set; }
     public AuditLogStatus Status { get; set; }
-    public TimestampAttribute Timestamp { get; set; }
+    //public TimestampAttribute Timestamp { get; set; }
     public string? UserId { get; set; }
 }

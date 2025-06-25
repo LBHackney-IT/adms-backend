@@ -5,11 +5,12 @@ using Domain.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Application.DTOs;
 
 
 namespace Infrastructure.Repositories;
 
-public class WriteTransactionRepository: IWriteRepository<Transaction>
+public class WriteTransactionRepository: IWriteRepository<Transaction, WriteTransactionDto>
 {
     
     private readonly ApplicationDbContext _context;
@@ -19,17 +20,63 @@ public class WriteTransactionRepository: IWriteRepository<Transaction>
         _context = context;
     }
     
-    public async Task AddAsync(Transaction entity)
+    public async Task AddAsync(WriteTransactionDto entity)
     {
-        await _context.Transactions.AddAsync(entity);
+        var newTransaction = new Transaction
+        {
+            Id = Guid.NewGuid(),
+            ApprenticeName = entity.ApprenticeName,
+            ApprenticeshipTrainingCourse = entity.ApprenticeshipTrainingCourse,
+            CourseLevel = entity.CourseLevel,
+            Description = entity.Description,
+            EnglishPercentage = entity.EnglishPercentage,
+            GovernmentContribution = entity.GovernmentContribution,
+            LevyDeclared = entity.LevyDeclared,
+            PaidFromLevy = entity.PaidFromLevy,
+            PayeScheme = entity.PayeScheme,
+            PayrollMonth = entity.PayrollMonth,
+            
+            TenPercentageTopUp = entity.TenPercentageTopUp,
+            Total = entity.Total,
+            TransactionDate = entity.TransactionDate,
+            TransactionType = entity.TransactionType,
+            TrainingProvider = entity.TrainingProvider,
+            ULN = entity.ULN,
+            YourContribution = entity.YourContribution,
+        };
+        await _context.Transactions.AddAsync(newTransaction);
         await _context.SaveChangesAsync();
     }
 
-    public async Task AddRangeAsync(IEnumerable<Transaction> entities)
+    public async Task AddRangeAsync(IEnumerable<WriteTransactionDto> entities)
     {
-        await _context.Transactions.AddRangeAsync(entities);
-        await _context.SaveChangesAsync();
+        var transactionList = entities.ToList();
+        
+        var transactions = transactionList.Select(dtolistitem => new Transaction
+        {
+            Id = Guid.NewGuid(),
+            ApprenticeName = dtolistitem.ApprenticeName,
+            ApprenticeshipTrainingCourse = dtolistitem.ApprenticeshipTrainingCourse,
+            CourseLevel = dtolistitem.CourseLevel,
+            Description = dtolistitem.Description,
+            EnglishPercentage = dtolistitem.EnglishPercentage,
+            GovernmentContribution = dtolistitem.GovernmentContribution,
+            LevyDeclared = dtolistitem.LevyDeclared,
+            PaidFromLevy = dtolistitem.PaidFromLevy,
+            PayeScheme = dtolistitem.PayeScheme,
+            PayrollMonth = dtolistitem.PayrollMonth,
+            
+            TenPercentageTopUp = dtolistitem.TenPercentageTopUp,
+            Total = dtolistitem.Total,
+            TransactionDate = dtolistitem.TransactionDate,
+            TransactionType = dtolistitem.TransactionType,
+            TrainingProvider = dtolistitem.TrainingProvider,
+            ULN = dtolistitem.ULN,
+            YourContribution = dtolistitem.YourContribution,
+        });
 
+        await _context.Transactions.AddRangeAsync(transactions);
+        await _context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Transaction entity)

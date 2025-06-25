@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using Domain.Interfaces;
 
 namespace Domain.Entities;
@@ -11,6 +12,7 @@ public class Transaction: ITransaction
     public string Description { get; set; }
     public decimal EnglishPercentage { get; set; }
     public decimal GovernmentContribution { get; set; }
+    [Key]
     public required Guid Id { get; set; }
     public decimal LevyDeclared { get; set; }
     public decimal PaidFromLevy { get; set; }

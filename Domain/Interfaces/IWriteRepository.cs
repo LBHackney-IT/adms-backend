@@ -2,10 +2,10 @@ using System;
 
 namespace Domain.Interfaces;
 
-public interface IWriteRepository<T> where T : class
+public interface IWriteRepository<TEntity, TGenerate> where TEntity : class where TGenerate : class
 {
-    Task AddAsync(T entity);
-    Task AddRangeAsync(IEnumerable<T> entities);
-    Task UpdateAsync(T entity);
+    Task AddAsync(TGenerate entity);
+    Task AddRangeAsync(IEnumerable<TGenerate> entities);
+    Task UpdateAsync(TEntity entity);
     Task RemoveAsync(Guid id);
 }

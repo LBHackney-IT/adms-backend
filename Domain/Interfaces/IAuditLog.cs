@@ -10,6 +10,6 @@ public interface IAuditLog
     AuditLogEventType EventType { get; set; }
     Guid Id { get; set; }
     AuditLogStatus Status { get; set; }
-    TimestampAttribute Timestamp { get; set; }
+    //TimestampAttribute Timestamp { get; set; }
     string? UserId { get; set; }
 }
