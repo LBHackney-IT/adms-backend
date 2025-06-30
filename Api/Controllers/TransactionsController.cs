@@ -30,10 +30,18 @@ public class TransactionsController : ControllerBase
     }
     
     [HttpGet("{id}")]
-    [ProducesResponseType(typeof(Transaction), 200)]
+    [ProducesResponseType(typeof(ResponseTransactionDto), 200)]
+    [ProducesResponseType(404)]
+
     public async Task<ActionResult<Transaction>> GetById(Guid id)
     {
-        return await _readRepository.GetByIdAsync(id);
+        var transaction = await _readRepository.GetByIdAsync(id);
+        if (transaction == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(transaction);
     }
     
     [HttpGet]
@@ -64,14 +72,13 @@ public class TransactionsController : ControllerBase
         return Ok(transactions);
     }
     
-    
     [HttpPost]
     [Route("create")]
     [ProducesResponseType(typeof(Transaction), 201)]
     public async Task<ActionResult<WriteTransactionDto>> TransactionAdd(WriteTransactionDto transactionDto)
     {
         await _writeRepository.AddAsync(transactionDto);
-        return Empty;
+        return Ok();
     }
 
     [HttpPost]
