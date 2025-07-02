@@ -32,7 +32,6 @@ public class TransactionsController : ControllerBase
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ResponseTransactionDto), 200)]
     [ProducesResponseType(404)]
-
     public async Task<ActionResult<Transaction>> GetById(Guid id)
     {
         var transaction = await _readRepository.GetByIdAsync(id);
@@ -44,8 +43,7 @@ public class TransactionsController : ControllerBase
         return Ok(transaction);
     }
     
-    [HttpGet]
-    [Route("uln/{uln}")]
+    [HttpGet("uln/{uln}")]
     [ProducesResponseType(typeof(IEnumerable<Transaction>), 200)]
     public async Task<ActionResult<IEnumerable<Transaction>>> GetByUlnAsync(decimal uln)
     {
@@ -53,27 +51,23 @@ public class TransactionsController : ControllerBase
         return Ok(transactions);
     }
     
-    [HttpGet]
-    [Route("find")]
+    [HttpPost("find")]
     [ProducesResponseType(typeof(List<ResponseTransactionDto>), 200)]
     public async Task<ActionResult<List<ResponseTransactionDto>>> Find(
-        [FromQuery] DateTime? fromDate,
-        [FromQuery] DateTime? toDate,
-        [FromQuery] string? description
+        [FromBody] FindTransaction request
     )
     {
         System.Linq.Expressions.Expression<Func<Transaction, bool>> predicate = t =>
-            (!fromDate.HasValue || t.TransactionDate >= fromDate.Value) &&
-            (!toDate.HasValue || t.TransactionDate <= toDate.Value) &&
-            (string.IsNullOrEmpty(description) || t.Description == description);
+            (!request.FromDate.HasValue || t.TransactionDate >= request.FromDate.Value) &&
+            (!request.ToDate.HasValue || t.TransactionDate <= request.ToDate.Value) &&
+            (string.IsNullOrEmpty(request.Description) || t.Description == request.Description);
 
         var transactions = await _readRepository.FindAsync(predicate);
 
         return Ok(transactions);
     }
     
-    [HttpPost]
-    [Route("create")]
+    [HttpPost("create")]
     [ProducesResponseType(typeof(Transaction), 201)]
     public async Task<ActionResult<WriteTransactionDto>> TransactionAdd(WriteTransactionDto transactionDto)
     {
@@ -81,8 +75,7 @@ public class TransactionsController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
-    [Route("create-range")]
+    [HttpPost("create-range")]
     [ProducesResponseType(typeof(Transaction), 200)]
     public async Task<ActionResult<WriteTransactionDto>> BulkTransactionAdd(IEnumerable<WriteTransactionDto> newTransaction)
     {
@@ -91,7 +84,6 @@ public class TransactionsController : ControllerBase
     }
     
     [HttpPatch]
-    [Route("update")]
     [ProducesResponseType(typeof(Transaction), 200)]
     public async Task<ActionResult> UpdateTransaction(Transaction transaction)
     {
@@ -99,8 +91,7 @@ public class TransactionsController : ControllerBase
         return NoContent();
     }
     
-    [HttpDelete]
-    [Route("delete/{id}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(typeof(Transaction), 200)]
     public async Task<IActionResult> DeleteTransaction(Guid id)
     {

@@ -9,6 +9,6 @@ public interface IReadRepository<TEntity, TResponse>
 {
     Task<List<TResponse>> GetAllAsync();
     Task<TEntity> GetByIdAsync(Guid id);
-    Task<IEnumerable<TEntity>> GetByUlnAsync(decimal uln);
+    Task<List<TResponse>> GetByUlnAsync(decimal uln);
     Task<List<TResponse>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 }

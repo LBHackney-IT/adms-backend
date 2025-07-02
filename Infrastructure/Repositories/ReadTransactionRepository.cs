@@ -4,7 +4,6 @@ using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Data;
 using Application.DTOs;
-using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -59,10 +58,36 @@ public class ReadTransactionRepository : IReadRepository<Transaction, ResponseTr
         return transactionById;
     }
 
-    public async Task<IEnumerable<Transaction>> GetByUlnAsync(decimal uln)
+    public async Task<List<ResponseTransactionDto>> GetByUlnAsync(decimal uln)
     {
-        var transactionsByULN = await _context.Transactions.Where(t => t.ULN == uln).ToListAsync();
-        return transactionsByULN;
+        return await (from t in _context.Transactions.Where(t => t.ULN == uln)
+            join a in _context.Apprentices on t.ULN equals a.ULN into apprentices
+            from apprentice in apprentices.DefaultIfEmpty()
+            select new ResponseTransactionDto
+            {
+                Id = t.Id,
+                ApprenticeName = t.ApprenticeName,
+                ApprenticeshipTrainingCourse = t.ApprenticeshipTrainingCourse,
+                CourseLevel = t.CourseLevel, 
+                Description = t.Description,
+                EnglishPercentage = t.EnglishPercentage,
+                GovernmentContribution = t.GovernmentContribution,
+                LevyDeclared = t.LevyDeclared,
+                PaidFromLevy = t.PaidFromLevy,
+                PayeScheme = t.PayeScheme,
+                PayrollMonth = t.PayrollMonth,
+                TenPercentageTopUp = t.TenPercentageTopUp,
+                Total = t.Total,
+                TransactionDate = t.TransactionDate,
+                TransactionType = t.TransactionType,
+                TrainingProvider = t.TrainingProvider,
+                ULN = t.ULN,
+                YourContribution = t.YourContribution,
+                // Enriched data from the Apprentice entity
+                ApprenticeDirectorate = apprentice != null ? apprentice.Directorate : null,
+                ApprenticeProgram = apprentice != null ? apprentice.ApprenticeProgram : null,
+                ApprenticeStatus = apprentice != null ? apprentice.Status : null
+            }).ToListAsync();
     }
 
     public async Task<List<ResponseTransactionDto>> FindAsync(Expression<Func<Transaction, bool>> predicate)
@@ -90,6 +115,7 @@ public class ReadTransactionRepository : IReadRepository<Transaction, ResponseTr
                 TrainingProvider = t.TrainingProvider,
                 ULN = t.ULN,
                 YourContribution = t.YourContribution,
+                // Enriched data from the Apprentice entity
                 ApprenticeDirectorate = apprentice != null ? apprentice.Directorate : null,
                 ApprenticeProgram = apprentice != null ? apprentice.ApprenticeProgram : null,
                 ApprenticeStatus = apprentice != null ? apprentice.Status : null

@@ -1,10 +1,7 @@
 using System;
-using System.Linq.Expressions;
 using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Application.DTOs;
 
 
@@ -35,7 +32,6 @@ public class WriteTransactionRepository: IWriteRepository<Transaction, WriteTran
             PaidFromLevy = entity.PaidFromLevy,
             PayeScheme = entity.PayeScheme,
             PayrollMonth = entity.PayrollMonth,
-            
             TenPercentageTopUp = entity.TenPercentageTopUp,
             Total = entity.Total,
             TransactionDate = entity.TransactionDate,
@@ -45,6 +41,7 @@ public class WriteTransactionRepository: IWriteRepository<Transaction, WriteTran
             YourContribution = entity.YourContribution,
         };
         await _context.Transactions.AddAsync(newTransaction);
+        
         await _context.SaveChangesAsync();
     }
 
@@ -52,27 +49,26 @@ public class WriteTransactionRepository: IWriteRepository<Transaction, WriteTran
     {
         var transactionList = entities.ToList();
         
-        var transactions = transactionList.Select(dtolistitem => new Transaction
+        var transactions = transactionList.Select(listitem => new Transaction
         {
             Id = Guid.NewGuid(),
-            ApprenticeName = dtolistitem.ApprenticeName,
-            ApprenticeshipTrainingCourse = dtolistitem.ApprenticeshipTrainingCourse,
-            CourseLevel = dtolistitem.CourseLevel,
-            Description = dtolistitem.Description,
-            EnglishPercentage = dtolistitem.EnglishPercentage,
-            GovernmentContribution = dtolistitem.GovernmentContribution,
-            LevyDeclared = dtolistitem.LevyDeclared,
-            PaidFromLevy = dtolistitem.PaidFromLevy,
-            PayeScheme = dtolistitem.PayeScheme,
-            PayrollMonth = dtolistitem.PayrollMonth,
-            
-            TenPercentageTopUp = dtolistitem.TenPercentageTopUp,
-            Total = dtolistitem.Total,
-            TransactionDate = dtolistitem.TransactionDate,
-            TransactionType = dtolistitem.TransactionType,
-            TrainingProvider = dtolistitem.TrainingProvider,
-            ULN = dtolistitem.ULN,
-            YourContribution = dtolistitem.YourContribution,
+            ApprenticeName = listitem.ApprenticeName,
+            ApprenticeshipTrainingCourse = listitem.ApprenticeshipTrainingCourse,
+            CourseLevel = listitem.CourseLevel,
+            Description = listitem.Description,
+            EnglishPercentage = listitem.EnglishPercentage,
+            GovernmentContribution = listitem.GovernmentContribution,
+            LevyDeclared = listitem.LevyDeclared,
+            PaidFromLevy = listitem.PaidFromLevy,
+            PayeScheme = listitem.PayeScheme,
+            PayrollMonth = listitem.PayrollMonth,
+            TenPercentageTopUp = listitem.TenPercentageTopUp,
+            Total = listitem.Total,
+            TransactionDate = listitem.TransactionDate,
+            TransactionType = listitem.TransactionType,
+            TrainingProvider = listitem.TrainingProvider,
+            ULN = listitem.ULN,
+            YourContribution = listitem.YourContribution,
         });
 
         await _context.Transactions.AddRangeAsync(transactions);
