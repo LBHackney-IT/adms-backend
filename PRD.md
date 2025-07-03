@@ -4,9 +4,9 @@
 
 This document specifies the backend requirements for the Apprenticeship Data Management System (ADMS). The primary objective of this system is to replace the current inefficient, spreadsheet-based data management protocol with a robust, centralized backend, featuring a PostgreSQL database and a .NET API.
 
-This change addresses the key business need to maintain an extended history of apprentice and financial data, overcoming the one-year export limitation of the current source. The backend will be responsible for intelligently processing data ingestion, handling data validation, managing data reconciliation (updates and insertions), and storing the information in a structured database.
+This change addresses the key business need to maintain an extended history of apprentice and financial data, overcoming the one-year export limitation of the current source.
 
-The core goal is to create a single, authoritative source for apprentice data that reduces manual workload, improves data accuracy and consistency, and provides a comprehensive historical record.
+The backend will be responsible for intelligently processing data ingestion, handling data validation, managing data reconciliation (updates and insertions), and storing the information in a structured database. The core goal is to create a single, authoritative source for apprentice data that reduces manual workload, improves data accuracy and consistency, and provides a comprehensive historical record.
 
 ## 2. Goals
 
@@ -41,13 +41,13 @@ The core goal is to create a single, authoritative source for apprentice data th
     *   If the ULN exists, the existing record must be updated with the information provided in the CSV file. The old data will be overwritten.
 7.  **FR7: Apprentice CRUD API:** The API must provide endpoints for Create, Read (for both individual records and lists), Update, and Delete operations for apprentice records.
 8.  **FR8: Transaction CRUD API:** The API must provide endpoints for Create, Read (for both individual records and lists), Update, and Delete operations for financial transaction records.
-9. **FR9: Data Querying and Filtering:** API endpoints that return lists of records must support server-side filtering.
+9.  **FR9: Data Querying and Filtering:** API endpoints that return lists of records must support server-side filtering.
     *   For **Apprentices**, filtering must be supported by "Status", "Directorate code", "Program", and "Start Date".
     *   For **Transactions**, filtering must be supported by "Transaction date" and "Description".
 10. **FR10: Comprehensive Logging:** The system shall produce logs for each data ingestion process, detailing metrics such as the source filename, rows processed, rows inserted, rows updated, and any errors encountered.
 11. **FR11: Security:** The API must be secured to ensure that all data modification operations (CRUD) and file uploads are restricted to authenticated users. For this initial implementation, all authenticated "apprenticeship team members" will have the same permissions.
 12. **FR12: Transaction Data Reconciliation (Upsert Logic):**
-*   The system will assume that all provided data are unique transactions and record them accordingly.
+    *   The system will assume that all provided data are unique transactions and record them accordingly.
 
 ## 5. Non-Goals (Out of Scope)
 

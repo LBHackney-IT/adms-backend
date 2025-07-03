@@ -7,6 +7,7 @@
 Api/obj/
 Domain/obj/
 Infrastructure/obj/
+Application/obj/
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)
