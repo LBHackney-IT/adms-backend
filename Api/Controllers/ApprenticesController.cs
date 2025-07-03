@@ -69,17 +69,17 @@ public class ApprenticesController : Controller
     
     [HttpPost("create")]
     [ProducesResponseType(typeof(Apprentice), 201)]
-    public async Task<ActionResult<WriteApprenticeDto>> ApprenticeAdd(WriteApprenticeDto apprenticeDto)
+    public async Task<ActionResult<WriteApprenticeDto>> ApprenticeCreate(WriteApprenticeDto apprenticeDto)
     {
         await _writeRepository.AddAsync(apprenticeDto);
         return Ok();
     }
     
-    [HttpPost("create-range")]
+    [HttpPost("upload")]
     [ProducesResponseType(typeof(Apprentice), 201)]
-    public async Task<ActionResult<IEnumerable<WriteApprenticeDto>>> ApprenticeAddRange(IEnumerable<WriteApprenticeDto> apprenticeDtos)
+    public async Task<ActionResult<IEnumerable<WriteApprenticeDto>>> ApprenticeUpload(IEnumerable<WriteApprenticeDto> apprenticeDtos)
     {
-        await _writeRepository.AddRangeAsync(apprenticeDtos);
+        await _writeRepository.UploadAsync(apprenticeDtos);
         return Ok();
     }
     

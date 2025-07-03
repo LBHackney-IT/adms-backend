@@ -10,8 +10,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // EntityFramework constructor options dependency injection.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+var localConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var AWSconnectionString = builder.Configuration.AddEnvironmentVariables("toBeAscertained");
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(localConnectionString));
 // 
 builder.Services.AddScoped<IReadRepository<Transaction, ResponseTransactionDto>, ReadTransactionRepository>();
 builder.Services.AddScoped<IWriteRepository<Transaction, WriteTransactionDto>, WriteTransactionRepository>();

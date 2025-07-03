@@ -69,17 +69,17 @@ public class TransactionsController : ControllerBase
     
     [HttpPost("create")]
     [ProducesResponseType(typeof(Transaction), 201)]
-    public async Task<ActionResult<WriteTransactionDto>> TransactionAdd(WriteTransactionDto transactionDto)
+    public async Task<ActionResult<WriteTransactionDto>> TransactionCreate(WriteTransactionDto transactionDto)
     {
         await _writeRepository.AddAsync(transactionDto);
         return Ok();
     }
 
-    [HttpPost("create-range")]
+    [HttpPost("upload")]
     [ProducesResponseType(typeof(Transaction), 200)]
-    public async Task<ActionResult<WriteTransactionDto>> BulkTransactionAdd(IEnumerable<WriteTransactionDto> newTransaction)
+    public async Task<ActionResult<WriteTransactionDto>> TransactionUpload(IEnumerable<WriteTransactionDto> newTransaction)
     {
-        await _writeRepository.AddRangeAsync(newTransaction);
+        await _writeRepository.UploadAsync(newTransaction);
         return Ok();
     }
     

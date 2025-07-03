@@ -45,7 +45,7 @@ public class WriteTransactionRepository: IWriteRepository<Transaction, WriteTran
         await _context.SaveChangesAsync();
     }
 
-    public async Task AddRangeAsync(IEnumerable<WriteTransactionDto> entities)
+    public async Task UploadAsync(IEnumerable<WriteTransactionDto> entities)
     {
         var transactionList = entities.ToList();
         
