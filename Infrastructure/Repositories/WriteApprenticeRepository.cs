@@ -56,6 +56,7 @@ public class WriteApprenticeRepository: IWriteRepository<Apprentice, WriteAppren
             UKPRN = entity.UKPRN,
             ULN = entity.ULN,
             WithdrawalDate = entity.WithdrawalDate,
+            CreatedAt = DateTime.UtcNow
         };
         await _context.Apprentices.AddAsync(newApprentice);
         await _context.SaveChangesAsync();
@@ -159,6 +160,7 @@ public class WriteApprenticeRepository: IWriteRepository<Apprentice, WriteAppren
                     UKPRN = entity.UKPRN,
                     ULN = entity.ULN,
                     WithdrawalDate = entity.WithdrawalDate,
+                    CreatedAt = DateTime.UtcNow
                 });
             }
         }

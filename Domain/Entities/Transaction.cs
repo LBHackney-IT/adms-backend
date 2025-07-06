@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using Domain.Interfaces;
 
 namespace Domain.Entities;
@@ -24,4 +23,5 @@ public class Transaction: ITransaction
     public string? TrainingProvider { get; set; }
     public decimal? ULN { get; set; }
     public decimal YourContribution { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

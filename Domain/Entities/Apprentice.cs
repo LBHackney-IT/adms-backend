@@ -40,4 +40,5 @@ public class Apprentice: IApprentice
     public decimal? UKPRN { get; set; }
     public required decimal ULN { get; set; }
     public DateTime? WithdrawalDate { get; set; }
+    public DateTime CreatedAt { get; set; }
 }
