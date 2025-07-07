@@ -29,7 +29,9 @@ public class ApprenticesController : Controller
     {
         try
         {
-            return await _readRepository.GetAllAsync();
+            var apprentices = await _readRepository.GetAllAsync();
+            return Ok(apprentices.ToList());
+
         }
         catch (KeyNotFoundException)
         {
