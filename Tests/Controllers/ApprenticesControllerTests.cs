@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Api.Controllers;
 using Application.Apprentices;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Xunit;
+
 
 namespace Tests.Controllers
 {
@@ -76,7 +73,7 @@ namespace Tests.Controllers
         {
             // Arrange
             var apprenticeId = Guid.NewGuid();
-            var apprentice = new Apprentice // Changed to Apprentice type
+            var apprentice = new Apprentice
             {
                 Id = apprenticeId,
                 Name = "Test Apprentice",
@@ -90,9 +87,9 @@ namespace Tests.Controllers
             var result = await _controller.GetById(apprenticeId);
 
             // Assert
-            var actionResult = Assert.IsType<ActionResult<Apprentice>>(result); // Expect ActionResult<Apprentice>
+            var actionResult = Assert.IsType<ActionResult<Apprentice>>(result);
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
-            var returnedApprentice = Assert.IsType<Apprentice>(okResult.Value); // Assert Apprentice type
+            var returnedApprentice = Assert.IsType<Apprentice>(okResult.Value);
             Assert.Equal(apprenticeId, returnedApprentice.Id);
         }
 

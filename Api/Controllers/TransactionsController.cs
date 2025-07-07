@@ -30,7 +30,8 @@ public class TransactionsController : ControllerBase
     {
         try
         {
-            return await _readRepository.GetAllAsync();
+            var transactions = await _readRepository.GetAllAsync();
+            return Ok(transactions.ToList());
         }
         catch (KeyNotFoundException)
         {
