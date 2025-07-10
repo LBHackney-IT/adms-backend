@@ -18,6 +18,8 @@ builder.Services.AddScoped<IReadRepository<Transaction, ResponseTransactionDto>,
 builder.Services.AddScoped<IWriteRepository<Transaction, WriteTransactionDto>, WriteTransactionRepository>();
 builder.Services.AddScoped<IReadRepository<Apprentice, ResponseApprenticeDto>, ReadApprenticeRepository>();
 builder.Services.AddScoped<IWriteRepository<Apprentice, WriteApprenticeDto>, WriteApprenticeRepository>();
+builder.Services.AddScoped<IReadRepository<AuditLog, AuditLog>, ReadAuditLogRepository>();
+builder.Services.AddScoped<IWriteRepository<AuditLog, AuditLog>, WriteAuditLogRepository>();
 //
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

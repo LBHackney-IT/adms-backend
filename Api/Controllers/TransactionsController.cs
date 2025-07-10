@@ -24,78 +24,191 @@ public class TransactionsController : ControllerBase
     
     [HttpGet("all")]
     [ProducesResponseType(typeof(List<ResponseTransactionDto>), 200)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<List<ResponseTransactionDto>>> GetAll()
     {
-        return await _readRepository.GetAllAsync();
+        try
+        {
+            var transactions = await _readRepository.GetAllAsync();
+            return Ok(transactions.ToList());
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
     
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ResponseTransactionDto), 200)]
-    [ProducesResponseType(404)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<Transaction>> GetById(Guid id)
     {
-        var transaction = await _readRepository.GetByIdAsync(id);
-        if (transaction == null)
+        try
+        {
+            var transaction = await _readRepository.GetByIdAsync(id);
+            return Ok(transaction);
+        }
+        catch (KeyNotFoundException)
         {
             return NotFound();
         }
-
-        return Ok(transaction);
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
     
     [HttpGet("uln/{uln}")]
-    [ProducesResponseType(typeof(IEnumerable<Transaction>), 200)]
+    [ProducesResponseType(typeof(List<ResponseTransactionDto>), 200)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<IEnumerable<Transaction>>> GetByUlnAsync(decimal uln)
     {
-        var transactions = await _readRepository.GetByUlnAsync(uln);
-        return Ok(transactions);
+        try
+        {
+            var transactions = await _readRepository.GetByUlnAsync(uln);
+            return Ok(transactions);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
     
     [HttpPost("find")]
     [ProducesResponseType(typeof(List<ResponseTransactionDto>), 200)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<List<ResponseTransactionDto>>> Find(
         [FromBody] FindTransaction request
     )
     {
-        System.Linq.Expressions.Expression<Func<Transaction, bool>> predicate = t =>
-            (!request.FromDate.HasValue || t.TransactionDate >= request.FromDate.Value) &&
-            (!request.ToDate.HasValue || t.TransactionDate <= request.ToDate.Value) &&
-            (string.IsNullOrEmpty(request.Description) || t.Description == request.Description);
+        try
+        {
+            System.Linq.Expressions.Expression<Func<Transaction, bool>> predicate = t =>
+                (!request.FromDate.HasValue || t.TransactionDate >= request.FromDate.Value) &&
+                (!request.ToDate.HasValue || t.TransactionDate <= request.ToDate.Value) &&
+                (string.IsNullOrEmpty(request.Description) || t.Description == request.Description);
 
-        var transactions = await _readRepository.FindAsync(predicate);
+            var transactions = await _readRepository.FindAsync(predicate);
 
-        return Ok(transactions);
+            return Ok(transactions);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
     
     [HttpPost("create")]
-    [ProducesResponseType(typeof(Transaction), 201)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<WriteTransactionDto>> TransactionCreate(WriteTransactionDto transactionDto)
     {
-        await _writeRepository.AddAsync(transactionDto);
-        return Ok();
+        try
+        {
+            await _writeRepository.AddAsync(transactionDto);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
 
     [HttpPost("upload")]
-    [ProducesResponseType(typeof(Transaction), 200)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<WriteTransactionDto>> TransactionUpload(IEnumerable<WriteTransactionDto> newTransaction)
     {
-        await _writeRepository.UploadAsync(newTransaction);
-        return Ok();
+        try
+        {
+            await _writeRepository.UploadAsync(newTransaction);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
     
     [HttpPatch]
-    [ProducesResponseType(typeof(Transaction), 200)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult> UpdateTransaction(Transaction transaction)
     {
-        await _writeRepository.UpdateAsync(transaction);
-        return NoContent();
+        try
+        {
+            await _writeRepository.UpdateAsync(transaction);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
     
     [HttpDelete("{id}")]
-    [ProducesResponseType(typeof(Transaction), 200)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<IActionResult> DeleteTransaction(Guid id)
     {
-        await _writeRepository.RemoveAsync(id);
-        return NoContent();
+        try
+        {
+            await _writeRepository.RemoveAsync(id);
+            return NoContent();
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ValidationProblemDetails
+            {
+                Detail = ex.Message
+            });
+        }
     }
 }

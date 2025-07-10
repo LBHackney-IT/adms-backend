@@ -1,5 +1,4 @@
 using System;
-using System.Xml;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,9 +24,21 @@ public class ApplicationDbContext: DbContext
         modelBuilder.Entity<Transaction>().Property(t => t.TransactionDate).IsRequired();
         //Apprentice Entity
         modelBuilder.Entity<Apprentice>().HasKey(a => a.Id);
+        modelBuilder.Entity<Apprentice>().HasIndex(a => a.ULN).IsUnique();
         modelBuilder.Entity<Apprentice>().Property(a => a.ULN).IsRequired();
-        modelBuilder.Entity<Apprentice>().Property(a => a.StartDate ).IsRequired();
+        modelBuilder.Entity<Apprentice>().Property(a => a.StartDate).IsRequired();
+        modelBuilder.Entity<Apprentice>().Property(a => a.ApprenticeAchievement).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.ApprenticeClassification).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.ApprenticeEthnicity).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.ApprenticeGender).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.ApprenticeNonCompletionReason).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.ApprenticeProgram).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.ApprenticeProgression).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.CertificatesReceived).HasConversion<string>();
+        modelBuilder.Entity<Apprentice>().Property(a => a.Directorate).HasConversion<string>();
         //AuditLog Entity
         modelBuilder.Entity<AuditLog>().HasKey(a => a.Id);
+        modelBuilder.Entity<AuditLog>().Property(a => a.EventType).HasConversion<string>();
+        modelBuilder.Entity<AuditLog>().Property(a => a.Status).HasConversion<string>();
     }
 }

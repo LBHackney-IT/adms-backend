@@ -39,6 +39,7 @@ public class WriteTransactionRepository: IWriteRepository<Transaction, WriteTran
             TrainingProvider = entity.TrainingProvider,
             ULN = entity.ULN,
             YourContribution = entity.YourContribution,
+            CreatedAt = DateTime.UtcNow
         };
         await _context.Transactions.AddAsync(newTransaction);
         
@@ -69,6 +70,7 @@ public class WriteTransactionRepository: IWriteRepository<Transaction, WriteTran
             TrainingProvider = listitem.TrainingProvider,
             ULN = listitem.ULN,
             YourContribution = listitem.YourContribution,
+            CreatedAt = DateTime.UtcNow
         });
 
         await _context.Transactions.AddRangeAsync(transactions);
