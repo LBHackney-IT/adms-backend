@@ -21,7 +21,7 @@ public class ResponseApprenticeDto
     public DirectorateCode? Directorate { get; set; }
     public string? DoeReference { get; set; }
     public string? EmployeeNumber { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
     public string? EndPointAssessor { get; set; }
     public required Guid Id { get; set; }
     public bool IsCareLeaver { get; set; }
@@ -29,7 +29,7 @@ public class ResponseApprenticeDto
     public string? ManagerName { get; set; }
     public string? ManagerTitle { get; set; }
     public required string Name { get; set; }
-    public DateTime PauseDate { get; set; }
+    public DateTime? PauseDate { get; set; }
     public string? Post { get; set; }
     public string? School { get; set; }
     public required DateTime StartDate { get; set; }

@@ -8,7 +8,7 @@ public interface ITransaction
     string Description { get; set; }
     decimal EnglishPercentage { get; set; }
     decimal GovernmentContribution { get; set; }
-    Guid Id { get; set; }
+    Guid Id { get; init; }
     decimal LevyDeclared { get; set; }
     decimal PaidFromLevy { get; set; }
     string? PayeScheme { get; set; }

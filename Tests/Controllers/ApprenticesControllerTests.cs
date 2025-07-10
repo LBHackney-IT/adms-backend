@@ -67,6 +67,20 @@ namespace Tests.Controllers
             var returnedApprentices = Assert.IsAssignableFrom<IEnumerable<ResponseApprenticeDto>>(okResult.Value);
             Assert.Equal(2, returnedApprentices.Count());
         }
+        
+        [Fact]
+        public async Task GetAll_ThrowsException_ReturnsBadRequest()
+        {
+            // Arrange
+            _mockReadRepository.Setup(x => x.GetAllAsync()).ThrowsAsync(new Exception("Test exception"));
+
+            // Act
+            var result = await _controller.GetAll();
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<List<ResponseApprenticeDto>>>(result);
+            Assert.IsType<BadRequestObjectResult>(actionResult.Result);
+        }
 
         [Fact]
         public async Task GetById_ReturnsOkResult_WithApprentice()
@@ -92,6 +106,21 @@ namespace Tests.Controllers
             var returnedApprentice = Assert.IsType<Apprentice>(okResult.Value);
             Assert.Equal(apprenticeId, returnedApprentice.Id);
         }
+        
+        [Fact]
+        public async Task GetById_ThrowsException_ReturnsNotFound()
+        {
+            // Arrange
+            var apprenticeId = Guid.NewGuid();
+            _mockReadRepository.Setup(repo => repo.GetByIdAsync(apprenticeId)).ThrowsAsync(new KeyNotFoundException());
+
+            // Act
+            var result = await _controller.GetById(apprenticeId);
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<Apprentice>>(result);
+            Assert.IsType<NotFoundResult>(actionResult.Result);
+        }
 
         [Fact]
         public async Task GetByUln_ReturnsOkResult_WithApprentice()
@@ -109,6 +138,21 @@ namespace Tests.Controllers
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var returnedApprentice = Assert.IsAssignableFrom<IEnumerable<ResponseApprenticeDto>>(okResult.Value).ToList();
             Assert.Equal(uln, returnedApprentice.First().ULN);
+        }
+        
+        [Fact]
+        public async Task GetByUln_ThrowsException_ReturnsNotFound()
+        {
+            // Arrange
+            var uln = 1234567890;
+            _mockReadRepository.Setup(repo => repo.GetByUlnAsync(uln)).ThrowsAsync(new KeyNotFoundException());
+
+            // Act
+            var result = await _controller.GetByUlnAsync(uln);
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<IEnumerable<Apprentice>>>(result);
+            Assert.IsType<NotFoundResult>(actionResult.Result);
         }
 
         [Fact]
@@ -131,6 +175,21 @@ namespace Tests.Controllers
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var returnedApprentices = Assert.IsType<List<ResponseApprenticeDto>>(okResult.Value);
             Assert.Equal(2, returnedApprentices.Count);
+        }
+        
+        [Fact]
+        public async Task Find_ThrowsException_ReturnsBadRequest()
+        {
+            // Arrange
+            var request = new FindApprentice();
+            _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Apprentice, bool>>>())).ThrowsAsync(new Exception("Test exception"));
+
+            // Act
+            var result = await _controller.Find(request);
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<List<ResponseApprenticeDto>>>(result);
+            Assert.IsType<BadRequestObjectResult>(actionResult.Result);
         }
 
         [Fact]

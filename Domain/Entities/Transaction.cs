@@ -8,10 +8,10 @@ public class Transaction: ITransaction
     public string? ApprenticeName { get; set; }
     public string? ApprenticeshipTrainingCourse { get; set; }
     public int CourseLevel { get; set; }
-    public string Description { get; set; }
+    public required string Description { get; set; }
     public decimal EnglishPercentage { get; set; }
     public decimal GovernmentContribution { get; set; }
-    public required Guid Id { get; set; }
+    public required Guid Id { get; init; }
     public decimal LevyDeclared { get; set; }
     public decimal PaidFromLevy { get; set; }
     public string? PayeScheme { get; set; }
@@ -23,5 +23,5 @@ public class Transaction: ITransaction
     public string? TrainingProvider { get; set; }
     public decimal? ULN { get; set; }
     public decimal YourContribution { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; init; }
 }
