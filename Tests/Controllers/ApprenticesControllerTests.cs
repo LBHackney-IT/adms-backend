@@ -159,7 +159,6 @@ namespace Tests.Controllers
         public async Task Find_ReturnsOkResult_WithListOfApprentices()
         {
             // Arrange
-            var request = new FindApprentice();
             var apprentices = new List<ResponseApprenticeDto>
             {
                 CreateResponseApprenticeDto(Guid.NewGuid(), 1234567890),
@@ -168,7 +167,7 @@ namespace Tests.Controllers
             _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Apprentice, bool>>>())).ReturnsAsync(apprentices);
 
             // Act
-            var result = await _controller.Find(request);
+            var result = await _controller.Find();
 
             // Assert
             var actionResult = Assert.IsType<ActionResult<List<ResponseApprenticeDto>>>(result);
@@ -178,14 +177,36 @@ namespace Tests.Controllers
         }
         
         [Fact]
+        public async Task Find_WithParameters_ReturnsOkResult_WithListOfApprentices()
+        {
+            // Arrange
+            var startDate = DateTime.UtcNow.AddDays(-30);
+            var endDate = DateTime.UtcNow;
+            var status = "Active";
+            var apprentices = new List<ResponseApprenticeDto>
+            {
+                CreateResponseApprenticeDto(Guid.NewGuid(), 1234567890)
+            };
+            _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Apprentice, bool>>>())).ReturnsAsync(apprentices);
+
+            // Act
+            var result = await _controller.Find(startDate, endDate, status);
+
+            // Assert
+            var actionResult = Assert.IsType<ActionResult<List<ResponseApprenticeDto>>>(result);
+            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+            var returnedApprentices = Assert.IsType<List<ResponseApprenticeDto>>(okResult.Value);
+            Assert.Equal(1, returnedApprentices.Count);
+        }
+        
+        [Fact]
         public async Task Find_ThrowsException_ReturnsBadRequest()
         {
             // Arrange
-            var request = new FindApprentice();
             _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Apprentice, bool>>>())).ThrowsAsync(new Exception("Test exception"));
 
             // Act
-            var result = await _controller.Find(request);
+            var result = await _controller.Find();
 
             // Assert
             var actionResult = Assert.IsType<ActionResult<List<ResponseApprenticeDto>>>(result);
