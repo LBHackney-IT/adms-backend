@@ -2,6 +2,7 @@ using System;
 using System.Linq.Expressions;
 using Application.Apprentices;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -94,21 +95,26 @@ public class ApprenticesController : Controller
         }
     }
     
-    [HttpPost("find")]
+   
+    [HttpGet("find")]
     [ProducesResponseType(typeof(List<ResponseApprenticeDto>), 200)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<List<ResponseApprenticeDto>>> Find(
-        [FromBody] FindApprentice request)
+        [FromQuery] DateTime? startDate = null,
+        [FromQuery] DateTime? endDate = null,
+        [FromQuery] string? status = null,
+        [FromQuery] DirectorateCode? directorate = null,
+        [FromQuery] ApprenticeshipProgram? apprenticeProgram = null)
     {
         try
         {
             Expression<Func<Apprentice, bool>> predicate = a =>
-                (!request.StartDate.HasValue || a.StartDate >= request.StartDate.Value) &&
-                (!request.EndDate.HasValue || a.EndDate >= request.EndDate.Value) &&
-                (string.IsNullOrEmpty(request.Status) || a.Status == request.Status) &&
-                (!request.Directorate.HasValue || a.Directorate >= request.Directorate.Value) &&
-                (!request.ApprenticeProgram.HasValue || a.ApprenticeProgram >= request.ApprenticeProgram.Value);
+                (!startDate.HasValue || a.StartDate >= startDate.Value) &&
+                (!endDate.HasValue || a.EndDate >= endDate.Value) &&
+                (string.IsNullOrEmpty(status) || a.Status == status) &&
+                (!directorate.HasValue || a.Directorate >= directorate.Value) &&
+                (!apprenticeProgram.HasValue || a.ApprenticeProgram >= apprenticeProgram.Value);
 
             var apprentices = await _readRepository.FindAsync(predicate);
 

@@ -123,7 +123,6 @@ public class TransactionsControllerTests
     public async Task Find_ReturnsOkResult_WithListOfTransactions()
     {
         // Arrange
-        var request = new FindTransaction();
         var transactions = new List<ResponseTransactionDto>
         {
             CreateTransactionResponseDto(Guid.NewGuid(), "Transaction 1"),
@@ -132,7 +131,7 @@ public class TransactionsControllerTests
         _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Transaction, bool>>>())).ReturnsAsync(transactions);
 
         // Act
-        var result = await _controller.Find(request);
+        var result = await _controller.Find();
 
         // Assert
         var actionResult = Assert.IsType<ActionResult<List<ResponseTransactionDto>>>(result);
@@ -141,6 +140,42 @@ public class TransactionsControllerTests
         Assert.Equal(2, returnedTransactions.Count);
     }
 
+    [Fact]
+    public async Task Find_WithParameters_ReturnsOkResult_WithListOfTransactions()
+    {
+        // Arrange
+        var fromDate = DateTime.UtcNow.AddDays(-30);
+        var toDate = DateTime.UtcNow;
+        var description = "Test Transaction";
+        var transactions = new List<ResponseTransactionDto>
+        {
+            CreateTransactionResponseDto(Guid.NewGuid(), "Test Transaction")
+        };
+        _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Transaction, bool>>>())).ReturnsAsync(transactions);
+
+        // Act
+        var result = await _controller.Find(fromDate, toDate, description);
+
+        // Assert
+        var actionResult = Assert.IsType<ActionResult<List<ResponseTransactionDto>>>(result);
+        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+        var returnedTransactions = Assert.IsType<List<ResponseTransactionDto>>(okResult.Value);
+        Assert.Equal(1, returnedTransactions.Count);
+    }
+
+    [Fact]
+    public async Task Find_ThrowsException_ReturnsBadRequest()
+    {
+        // Arrange
+        _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Transaction, bool>>>())).ThrowsAsync(new Exception("Test exception"));
+
+        // Act
+        var result = await _controller.Find();
+
+        // Assert
+        var actionResult = Assert.IsType<ActionResult<List<ResponseTransactionDto>>>(result);
+        Assert.IsType<BadRequestObjectResult>(actionResult.Result);
+    }
 
     [Fact]
     public async Task TransactionCreate_ReturnsNoContent()
@@ -263,21 +298,6 @@ public class TransactionsControllerTests
         // Assert
         var actionResult = Assert.IsType<ActionResult<IEnumerable<Transaction>>>(result);
         Assert.IsType<NotFoundResult>(actionResult.Result);
-    }
-
-    [Fact]
-    public async Task Find_ThrowsException_ReturnsBadRequest()
-    {
-        // Arrange
-        var request = new FindTransaction();
-        _mockReadRepository.Setup(repo => repo.FindAsync(It.IsAny<Expression<Func<Transaction, bool>>>())).ThrowsAsync(new Exception("Test exception"));
-
-        // Act
-        var result = await _controller.Find(request);
-
-        // Assert
-        var actionResult = Assert.IsType<ActionResult<List<ResponseTransactionDto>>>(result);
-        Assert.IsType<BadRequestObjectResult>(actionResult.Result);
     }
 
     [Fact]

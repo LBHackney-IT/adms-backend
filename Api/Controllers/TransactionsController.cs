@@ -94,20 +94,22 @@ public class TransactionsController : ControllerBase
         }
     }
     
-    [HttpPost("find")]
+    [HttpGet("find")]
     [ProducesResponseType(typeof(List<ResponseTransactionDto>), 200)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<List<ResponseTransactionDto>>> Find(
-        [FromBody] FindTransaction request
+        [FromQuery] DateTime? fromDate = null,
+        [FromQuery] DateTime? toDate = null,
+        [FromQuery] string? description = null
     )
     {
         try
         {
             System.Linq.Expressions.Expression<Func<Transaction, bool>> predicate = t =>
-                (!request.FromDate.HasValue || t.TransactionDate >= request.FromDate.Value) &&
-                (!request.ToDate.HasValue || t.TransactionDate <= request.ToDate.Value) &&
-                (string.IsNullOrEmpty(request.Description) || t.Description == request.Description);
+                (!fromDate.HasValue || t.TransactionDate >= fromDate.Value) &&
+                (!toDate.HasValue || t.TransactionDate <= toDate.Value) &&
+                (string.IsNullOrEmpty(description) || t.Description == description);
 
             var transactions = await _readRepository.FindAsync(predicate);
 
