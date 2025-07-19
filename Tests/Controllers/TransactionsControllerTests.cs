@@ -1,4 +1,4 @@
-using System;
+
 using Api.Controllers;
 using Application.DTOs;
 using Domain.Entities;
@@ -39,7 +39,9 @@ public class TransactionsControllerTests
             TenPercentageTopUp = 0,
             Total = 100.0m,
             YourContribution = 0,
-            CourseLevel = 1
+            CourseLevel = 1,
+            CreatedAt = DateTime.UtcNow,
+            ULN = 1234567890
         };
     }
     
@@ -58,7 +60,8 @@ public class TransactionsControllerTests
             TenPercentageTopUp = 0,
             Total = 100.0m,
             YourContribution = 0,
-            CourseLevel = 1
+            CourseLevel = 1,
+            ULN = 1234567890
         };
     }
     
@@ -104,7 +107,8 @@ public class TransactionsControllerTests
             Total = 150.0m,
             YourContribution = 0,
             CourseLevel = 1,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            ULN = 1234567890
         };
         _mockReadRepository.Setup(repo => repo.GetByIdAsync(transactionId)).ReturnsAsync(transaction);
 
@@ -191,7 +195,6 @@ public class TransactionsControllerTests
         Assert.IsType<NoContentResult>(result.Result);
     }
 
-
     [Fact]
     public async Task TransactionUpload_ReturnsNoContent()
     {
@@ -230,7 +233,8 @@ public class TransactionsControllerTests
             Total = 200.0m,
             YourContribution = 0,
             CourseLevel = 1,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            ULN = 1234567890
         };
         _mockWriteRepository.Setup(repo => repo.UpdateAsync(transaction)).Returns(Task.CompletedTask);
 
@@ -283,6 +287,27 @@ public class TransactionsControllerTests
         // Assert
         var actionResult = Assert.IsType<ActionResult<Transaction>>(result);
         Assert.IsType<NotFoundResult>(actionResult.Result);
+    }
+
+    [Fact]
+    public async Task GetByUln_ReturnsOkResult_WithTransactions()
+    {
+        // Arrange
+        var uln = 1234567890;
+        var transactions = new List<ResponseTransactionDto> 
+        { 
+            CreateTransactionResponseDto(Guid.NewGuid(), "Transaction for ULN") 
+        };
+        _mockReadRepository.Setup(repo => repo.GetByUlnAsync(uln)).ReturnsAsync(transactions);
+
+        // Act
+        var result = await _controller.GetByUlnAsync(uln);
+
+        // Assert
+        var actionResult = Assert.IsType<ActionResult<IEnumerable<Transaction>>>(result);
+        var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+        var returnedTransactions = Assert.IsAssignableFrom<IEnumerable<ResponseTransactionDto>>(okResult.Value).ToList();
+        Assert.Equal(uln, returnedTransactions.First().ULN);
     }
 
     [Fact]
@@ -353,7 +378,8 @@ public class TransactionsControllerTests
             Total = 200.0m,
             YourContribution = 0,
             CourseLevel = 1,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            ULN = 1234567890
         };
         _mockWriteRepository.Setup(repo => repo.UpdateAsync(transaction)).ThrowsAsync(new KeyNotFoundException());
 

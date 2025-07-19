@@ -1,4 +1,4 @@
-using System;
+
 using Domain.Entities;
 using Domain.Enums;
 
@@ -17,15 +17,15 @@ public class ResponseApprenticeDto
     public string? ApprenticeshipDelivery { get; set; }
     public CertificateStatus? CertificatesReceived { get; set; }
     public DateTime? CompletionDate { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public required DateTime DateOfBirth { get; set; }
     public DirectorateCode? Directorate { get; set; }
     public string? DoeReference { get; set; }
     public string? EmployeeNumber { get; set; }
     public DateTime? EndDate { get; set; }
     public string? EndPointAssessor { get; set; }
     public required Guid Id { get; set; }
-    public bool IsCareLeaver { get; set; }
-    public bool IsDisabled { get; set; }
+    public bool IsCareLeaver { get; set; } = false;
+    public bool IsDisabled { get; set; } = false;
     public string? ManagerName { get; set; }
     public string? ManagerTitle { get; set; }
     public required string Name { get; set; }
@@ -40,6 +40,7 @@ public class ResponseApprenticeDto
     public decimal? UKPRN { get; set; }
     public required decimal ULN { get; set; }
     public DateTime? WithdrawalDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     
     // Enriched data from Transactions
     public List<Transaction> Transactions { get; set; } = new();
