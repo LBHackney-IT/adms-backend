@@ -1,4 +1,4 @@
-using System;
+
 using System.Linq.Expressions;
 using Api.Controllers;
 using Application.Apprentices;
@@ -31,7 +31,37 @@ namespace Tests.Controllers
                 Name = "Test Apprentice",
                 StartDate = DateTime.Now,
                 Status = "Active",
-                ULN = uln
+                ULN = uln,
+                CreatedAt = DateTime.UtcNow,
+                DateOfBirth = DateTime.Now.AddYears(-20),
+                ApprenticeAchievement = null,
+                ApprenticeConfirmation = null,
+                ApprenticeClassification = null,
+                ApprenticeEthnicity = null,
+                ApprenticeGender = null,
+                ApprenticeNonCompletionReason = null,
+                ApprenticeProgram = null,
+                ApprenticeProgression = null,
+                ApprenticeshipDelivery = null,
+                CertificatesReceived = null,
+                CompletionDate = null,
+                Directorate = null,
+                DoeReference = null,
+                EmployeeNumber = null,
+                EndDate = null,
+                EndPointAssessor = null,
+                IsCareLeaver = false,
+                IsDisabled = false,
+                ManagerName = null,
+                ManagerTitle = null,
+                PauseDate = null,
+                Post = null,
+                School = null,
+                TotalAgreedApprenticeshipPrice = 15000,
+                TrainingCourse = null,
+                TrainingProvider = null,
+                UKPRN = null,
+                WithdrawalDate = null
             };
         }
 
@@ -42,7 +72,36 @@ namespace Tests.Controllers
                 Name = "Test Apprentice",
                 StartDate = DateTime.Now,
                 Status = "Active",
-                ULN = uln
+                ULN = uln,
+                DateOfBirth = DateTime.Now.AddYears(-20),
+                ApprenticeAchievement = null,
+                ApprenticeConfirmation = null,
+                ApprenticeClassification = null,
+                ApprenticeEthnicity = null,
+                ApprenticeGender = null,
+                ApprenticeNonCompletionReason = null,
+                ApprenticeProgram = null,
+                ApprenticeProgression = null,
+                ApprenticeshipDelivery = null,
+                CertificatesReceived = null,
+                CompletionDate = null,
+                Directorate = null,
+                DoeReference = null,
+                EmployeeNumber = null,
+                EndDate = null,
+                EndPointAssessor = null,
+                IsCareLeaver = false,
+                IsDisabled = false,
+                ManagerName = null,
+                ManagerTitle = null,
+                PauseDate = null,
+                Post = null,
+                School = null,
+                TotalAgreedApprenticeshipPrice = 15000,
+                TrainingCourse = null,
+                TrainingProvider = null,
+                UKPRN = null,
+                WithdrawalDate = null
             };
         }
 
@@ -93,7 +152,37 @@ namespace Tests.Controllers
                 Name = "Test Apprentice",
                 StartDate = DateTime.Now,
                 Status = "Active",
-                ULN = 1234567890
+                ULN = 1234567890,
+                CreatedAt = DateTime.UtcNow,
+                DateOfBirth = DateTime.Now.AddYears(-20),
+                ApprenticeAchievement = null,
+                ApprenticeConfirmation = null,
+                ApprenticeClassification = null,
+                ApprenticeEthnicity = null,
+                ApprenticeGender = null,
+                ApprenticeNonCompletionReason = null,
+                ApprenticeProgram = null,
+                ApprenticeProgression = null,
+                ApprenticeshipDelivery = null,
+                CertificatesReceived = null,
+                CompletionDate = null,
+                Directorate = null,
+                DoeReference = null,
+                EmployeeNumber = null,
+                EndDate = null,
+                EndPointAssessor = null,
+                IsCareLeaver = false,
+                IsDisabled = false,
+                ManagerName = null,
+                ManagerTitle = null,
+                PauseDate = null,
+                Post = null,
+                School = null,
+                TotalAgreedApprenticeshipPrice = 15000,
+                TrainingCourse = null,
+                TrainingProvider = null,
+                UKPRN = null,
+                WithdrawalDate = null
             };
             _mockReadRepository.Setup(repo => repo.GetByIdAsync(apprenticeId)).ReturnsAsync(apprentice);
 
@@ -196,7 +285,7 @@ namespace Tests.Controllers
             var actionResult = Assert.IsType<ActionResult<List<ResponseApprenticeDto>>>(result);
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var returnedApprentices = Assert.IsType<List<ResponseApprenticeDto>>(okResult.Value);
-            Assert.Equal(1, returnedApprentices.Count);
+            Assert.Single(returnedApprentices);
         }
         
         [Fact]
@@ -255,7 +344,37 @@ namespace Tests.Controllers
                 Name = "Test Apprentice",
                 StartDate = DateTime.Now,
                 Status = "Active",
-                ULN = 1234567890
+                ULN = 1234567890,
+                CreatedAt = DateTime.UtcNow,
+                DateOfBirth = DateTime.Now.AddYears(-20),
+                ApprenticeAchievement = null,
+                ApprenticeConfirmation = null,
+                ApprenticeClassification = null,
+                ApprenticeEthnicity = null,
+                ApprenticeGender = null,
+                ApprenticeNonCompletionReason = null,
+                ApprenticeProgram = null,
+                ApprenticeProgression = null,
+                ApprenticeshipDelivery = null,
+                CertificatesReceived = null,
+                CompletionDate = null,
+                Directorate = null,
+                DoeReference = null,
+                EmployeeNumber = null,
+                EndDate = null,
+                EndPointAssessor = null,
+                IsCareLeaver = false,
+                IsDisabled = false,
+                ManagerName = null,
+                ManagerTitle = null,
+                PauseDate = null,
+                Post = null,
+                School = null,
+                TotalAgreedApprenticeshipPrice = 15000,
+                TrainingCourse = null,
+                TrainingProvider = null,
+                UKPRN = null,
+                WithdrawalDate = null
             };
             _mockWriteRepository.Setup(repo => repo.UpdateAsync(apprentice)).Returns(Task.CompletedTask);
 
