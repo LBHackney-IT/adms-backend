@@ -1,4 +1,4 @@
-using System;
+
 using Application.Apprentices;
 using Domain.Entities;
 using Domain.Interfaces;

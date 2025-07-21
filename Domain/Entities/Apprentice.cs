@@ -1,4 +1,4 @@
-using System;
+
 using Domain.Interfaces;
 using Domain.Enums;
 
@@ -17,7 +17,7 @@ public class Apprentice: IApprentice
     public string? ApprenticeshipDelivery { get; set; }
     public CertificateStatus? CertificatesReceived { get; set; }
     public DateTime? CompletionDate { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public required DateTime DateOfBirth { get; set; }
     public DirectorateCode? Directorate { get; set; }
     public string? DoeReference { get; set; }
     public string? EmployeeNumber { get; set; }

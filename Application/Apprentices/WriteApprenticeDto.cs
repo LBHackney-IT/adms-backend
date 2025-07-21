@@ -1,4 +1,4 @@
-using System;
+
 using Domain.Enums;
 
 namespace Application.Apprentices;
@@ -16,14 +16,14 @@ public class WriteApprenticeDto
     public string? ApprenticeshipDelivery { get; set; }
     public CertificateStatus? CertificatesReceived { get; set; }
     public DateTime? CompletionDate { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public required DateTime DateOfBirth { get; set; }
     public DirectorateCode? Directorate { get; set; }
     public string? DoeReference { get; set; }
     public string? EmployeeNumber { get; set; }
     public DateTime? EndDate { get; set; }
     public string? EndPointAssessor { get; set; }
-    public bool IsCareLeaver { get; set; }
-    public bool IsDisabled { get; set; }
+    public bool IsCareLeaver { get; set; } = false;
+    public bool IsDisabled { get; set; } = false;
     public string? ManagerName { get; set; }
     public string? ManagerTitle { get; set; }
     public required string Name { get; set; }
