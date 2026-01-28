@@ -1,5 +1,6 @@
 using System;
 using Application.Apprentices;
+using Application.AuditLogs;
 using Application.DTOs;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -24,7 +25,7 @@ builder.Services.AddScoped<IReadRepository<Transaction, ResponseTransactionDto>,
 builder.Services.AddScoped<IWriteRepository<Transaction, WriteTransactionDto>, WriteTransactionRepository>();
 builder.Services.AddScoped<IReadRepository<Apprentice, ResponseApprenticeDto>, ReadApprenticeRepository>();
 builder.Services.AddScoped<IWriteRepository<Apprentice, WriteApprenticeDto>, WriteApprenticeRepository>();
-builder.Services.AddScoped<IReadRepository<AuditLog, AuditLog>, ReadAuditLogRepository>();
+builder.Services.AddScoped<IReadRepository<AuditLog, ResponseAuditLogDto>, ReadAuditLogRepository>();
 builder.Services.AddScoped<IWriteRepository<AuditLog, AuditLog>, WriteAuditLogRepository>();
 //
 builder.Services.AddControllers();

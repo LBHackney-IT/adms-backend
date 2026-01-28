@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using Application.AuditLogs;
 using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Data;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class ReadAuditLogRepository : IReadRepository<AuditLog, AuditLog>
+    public class ReadAuditLogRepository : IReadRepository<AuditLog, ResponseAuditLogDto>
     {
         private readonly ApplicationDbContext _context;
 
@@ -16,10 +17,11 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<AuditLog>> GetAllAsync()
+        public async Task<List<ResponseAuditLogDto>> GetAllAsync()
         {
             return await _context.AuditLogs
                 .OrderByDescending(a => a.CreatedAt)
+                .Select(MapToResponse())
                 .ToListAsync();
         }
 
@@ -28,17 +30,32 @@ namespace Infrastructure.Repositories
             return await _context.AuditLogs.FindAsync(id);
         }
 
-        public Task<List<AuditLog>> GetByUlnAsync(decimal uln)
+        public Task<List<ResponseAuditLogDto>> GetByUlnAsync(decimal uln)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<AuditLog>> FindAsync(Expression<Func<AuditLog, bool>> predicate)
+        public async Task<List<ResponseAuditLogDto>> FindAsync(Expression<Func<AuditLog, bool>> predicate)
         {
             return await _context.AuditLogs
                 .Where(predicate)
                 .OrderByDescending(a => a.CreatedAt)
+                .Select(MapToResponse())
                 .ToListAsync();
+        }
+
+        private static Expression<Func<AuditLog, ResponseAuditLogDto>> MapToResponse()
+        {
+            return auditLog => new ResponseAuditLogDto
+            {
+                Id = auditLog.Id,
+                EventType = auditLog.EventType,
+                Status = auditLog.Status,
+                EventTypeTargetId = auditLog.EventTypeTargetId,
+                Details = auditLog.Details,
+                UserId = auditLog.UserId,
+                CreatedAt = auditLog.CreatedAt
+            };
         }
     }
 }
