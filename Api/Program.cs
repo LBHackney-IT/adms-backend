@@ -4,6 +4,7 @@ using Application.DTOs;
 using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Interceptors;
 using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 // EntityFramework constructor options dependency injection.
 var localConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 //var AWSconnectionString = builder.Configuration.AddEnvironmentVariables("toBeAscertained");
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(localConnectionString));
+builder.Services.AddScoped<AuditSaveChangesInterceptor>();
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+{
+    options.UseNpgsql(localConnectionString);
+    options.AddInterceptors(serviceProvider.GetRequiredService<AuditSaveChangesInterceptor>());
+});
 // 
 builder.Services.AddScoped<IReadRepository<Transaction, ResponseTransactionDto>, ReadTransactionRepository>();
 builder.Services.AddScoped<IWriteRepository<Transaction, WriteTransactionDto>, WriteTransactionRepository>();
