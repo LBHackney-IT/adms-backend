@@ -40,5 +40,9 @@ public class ApplicationDbContext: DbContext
         modelBuilder.Entity<AuditLog>().HasKey(a => a.Id);
         modelBuilder.Entity<AuditLog>().Property(a => a.EventType).HasConversion<string>();
         modelBuilder.Entity<AuditLog>().Property(a => a.Status).HasConversion<string>();
+        modelBuilder.Entity<AuditLog>().HasIndex(a => a.CreatedAt);
+        modelBuilder.Entity<AuditLog>().HasIndex(a => a.UserId);
+        modelBuilder.Entity<AuditLog>().HasIndex(a => a.EntityName);
+        modelBuilder.Entity<AuditLog>().HasIndex(a => a.EventType);
     }
 }

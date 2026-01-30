@@ -78,6 +78,7 @@ public class AuditLogsController : ControllerBase
     [ProducesResponseType(statusCode: 400, type: typeof(ValidationProblemDetails))]
     public async Task<ActionResult<List<ResponseAuditLogDto>>> Find(
         [FromQuery] AuditLogEventType? eventType = null,
+        [FromQuery] string? entityName = null,
         [FromQuery] string? targetId = null,
         [FromQuery] string? userId = null,
         [FromQuery] DateTime? createdFrom = null,
@@ -87,6 +88,7 @@ public class AuditLogsController : ControllerBase
         {
             Expression<Func<AuditLog, bool>> predicate = log =>
                 (!eventType.HasValue || log.EventType == eventType.Value) &&
+                (string.IsNullOrWhiteSpace(entityName) || log.EntityName == entityName) &&
                 (string.IsNullOrWhiteSpace(targetId) || log.EventTypeTargetId == targetId) &&
                 (string.IsNullOrWhiteSpace(userId) || log.UserId == userId) &&
                 (!createdFrom.HasValue || log.CreatedAt >= createdFrom.Value) &&
@@ -116,10 +118,12 @@ public class AuditLogsController : ControllerBase
             Id = auditLog.Id,
             EventType = auditLog.EventType,
             Status = auditLog.Status,
+            EntityName = auditLog.EntityName,
             EventTypeTargetId = auditLog.EventTypeTargetId,
             Details = auditLog.Details,
             UserId = auditLog.UserId,
-            CreatedAt = auditLog.CreatedAt
+            CreatedAt = auditLog.CreatedAt,
+            CorrelationId = auditLog.CorrelationId
         };
     }
 }

@@ -85,10 +85,12 @@ public sealed class AuditSaveChangesInterceptor : SaveChangesInterceptor
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             EventType = eventType.Value,
+            EntityName = entry.Entity.GetType().Name,
             EventTypeTargetId = GetPrimaryKeyString(entry),
             Status = AuditLogStatus.Success,
             Details = BuildDetails(entry),
-            UserId = null
+            UserId = null,
+            CorrelationId = null
         };
     }
 

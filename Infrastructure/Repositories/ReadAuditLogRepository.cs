@@ -51,10 +51,12 @@ namespace Infrastructure.Repositories
                 Id = auditLog.Id,
                 EventType = auditLog.EventType,
                 Status = auditLog.Status,
+                EntityName = auditLog.EntityName,
                 EventTypeTargetId = auditLog.EventTypeTargetId,
                 Details = auditLog.Details,
                 UserId = auditLog.UserId,
-                CreatedAt = auditLog.CreatedAt
+                CreatedAt = auditLog.CreatedAt,
+                CorrelationId = auditLog.CorrelationId
             };
         }
     }
